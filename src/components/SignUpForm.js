@@ -64,7 +64,6 @@ const SignUpForm = () => {
             <Button variant='primary' type='submit'>
               Sign Up
             </Button>
-            <pre>{JSON.stringify(values, null, 2)}</pre>
           </Form>
         )}
       </Formik>

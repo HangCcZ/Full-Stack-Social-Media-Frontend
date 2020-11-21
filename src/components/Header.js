@@ -57,16 +57,12 @@ const Header = ({ handleLogOut }) => {
       <Navbar.Toggle aria-controls='responsive-navbar-nav' />
       <Navbar.Collapse id='responsive-navbar-nav'>
         <Nav className='mr-auto'>
-          <Nav.Item>
-            <Link style={padding} to='/'>
-              home
-            </Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Link style={padding} to='/users'>
-              users
-            </Link>
-          </Nav.Item>
+          <Nav.Link as={Link} to='/'>
+            Home
+          </Nav.Link>
+          <Nav.Link as={Link} to='users'>
+            Users
+          </Nav.Link>
         </Nav>
 
         <Nav className='justify-content-end'> {renderLoginMessage()}</Nav>
