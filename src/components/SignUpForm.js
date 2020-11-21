@@ -3,8 +3,9 @@ import { Form as styleForm, Button } from "react-bootstrap"
 import signUpService from "../services/signup"
 
 import { Formik, Field, Form } from "formik"
-
+import { useHistory } from "react-router-dom"
 const SignUpForm = () => {
+  const history = useHistory()
   return (
     <div>
       <Formik
@@ -29,8 +30,9 @@ const SignUpForm = () => {
               password: "",
               confirmPassowrd: "",
             })
-            console.log("submit: ", values)
+            history.push("/")
           } else {
+            /* TODO */
             console.log("bad match")
           }
         }}
