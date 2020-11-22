@@ -2,7 +2,7 @@ import React from "react"
 import { useSelector } from "react-redux"
 import { Button, Navbar, Nav } from "react-bootstrap"
 
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 
 const padding = {
   padding: 5,
@@ -14,6 +14,7 @@ const margins = {
 
 const Header = ({ handleLogOut }) => {
   const user = useSelector((state) => state.user)
+  const location = useLocation()
 
   if (!user) {
     return (
@@ -26,11 +27,20 @@ const Header = ({ handleLogOut }) => {
         <Navbar.Toggle aria-controls='responsive-navbar-nav' />
         <Navbar.Collapse id='responsive-navbar-nav'>
           <Nav className='mr-auto'></Nav>
-          <Nav className='justify-content-end'>
-            <Link style={padding} to='/signup'>
-              SIGN UP
-            </Link>
-          </Nav>
+
+          {location.pathname === "/signup" ? (
+            <Nav className='justify-content-end'>
+              <Nav.Link as={Link} to='/'>
+                Log In
+              </Nav.Link>
+            </Nav>
+          ) : (
+            <Nav className='justify-content-end'>
+              <Nav.Link as={Link} to='/signup'>
+                Sign Up
+              </Nav.Link>
+            </Nav>
+          )}
         </Navbar.Collapse>
       </Navbar>
     )

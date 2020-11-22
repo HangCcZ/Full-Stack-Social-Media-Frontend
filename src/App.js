@@ -172,6 +172,7 @@ const App = () => {
   return (
     <>
       <Header handleLogOut={handleLogOut} />
+
       <Container>
         <Notification message={notification} />
         <Switch>

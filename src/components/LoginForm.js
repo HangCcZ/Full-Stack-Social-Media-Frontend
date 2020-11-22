@@ -36,7 +36,7 @@ const LoginForm = () => {
         />
       </Form.Group>
       <Button variant='primary' type='submit'>
-        login
+        Log In
       </Button>
     </Form>
   )
