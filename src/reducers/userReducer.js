@@ -1,7 +1,6 @@
 import loginService from "../services/login"
 import blogService from "../services/blogs"
 import { initializeBlogs } from "./blogReducer"
-import { clearInputFields } from "./loginInfoReducer"
 import {
   errorMessage,
   successMessage,
@@ -34,7 +33,6 @@ export const loginUser = (username, password) => {
       })
       dispatch(successMessage(`user ${user.username} logged in`))
       dispatch(initializeBlogs())
-      dispatch(clearInputFields())
     } catch (exception) {
       dispatch({ type: "FAIL" })
       dispatch(errorMessage("Wrong username or password"))

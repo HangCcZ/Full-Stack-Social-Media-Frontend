@@ -20,8 +20,6 @@ import {
   clearMessage,
 } from "./reducers/notificationReducer"
 
-import { clearInputFields } from "./reducers/loginInfoReducer"
-
 import {
   Switch,
   Route,
@@ -70,7 +68,6 @@ const App = () => {
     history.push("/")
     dispatch(logoutUser())
     dispatch(clearBlogs())
-    dispatch(clearInputFields())
   }
 
   const addBlog = (blogObject) => {

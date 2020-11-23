@@ -25,10 +25,12 @@ const SignUpForm = () => {
             })
             setSubmitting(false)
             resetForm({
-              name: "",
-              username: "",
-              password: "",
-              confirmPassowrd: "",
+              values: {
+                name: "",
+                username: "",
+                password: "",
+                confirmPassowrd: "",
+              },
             })
             history.push("/")
           } else {
