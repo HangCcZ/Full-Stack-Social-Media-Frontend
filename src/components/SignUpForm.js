@@ -1,10 +1,15 @@
 import React from "react"
-import { Form as styleForm, Button } from "react-bootstrap"
 import signUpService from "../services/signup"
-
-import { Formik, Field, Form } from "formik"
+import { Formik, Field, Form, ErrorMessage } from "formik"
+import { Form as styleForm, Button } from "react-bootstrap"
 import { useHistory } from "react-router-dom"
+import { useDispatch } from "react-redux"
 import * as Yup from "yup"
+import {
+  successMessage,
+  errorMessage,
+  clearMessage,
+} from "../reducers/notificationReducer"
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string()
@@ -19,7 +24,7 @@ const SignupSchema = Yup.object().shape({
     .min(8, "Too Short!")
     .max(15, "Too Long")
     .required("Required"),
-  confirmPassoword: Yup.string()
+  confirmPassword: Yup.string()
     .min(8, "Too Short!")
     .max(15, "Too Long")
     .required("Required"),
@@ -30,11 +35,11 @@ const validatePasswords = (values) => {
   if (values.password !== values.confirmPassword) {
     errors.confirmPassword = "Must be the same as password above"
   }
-  console.log("error is", errors)
   return errors
 }
 
 const SignUpForm = () => {
+  const dispatch = useDispatch()
   const history = useHistory()
   return (
     <div>
@@ -49,26 +54,34 @@ const SignUpForm = () => {
         validationSchema={SignupSchema}
         onSubmit={async (values, { resetForm, setSubmitting }) => {
           if (values.password === values.confirmPassword) {
-            setSubmitting(true)
-            await signUpService.signUp({
-              name: values.name,
-              username: values.username,
-              password: values.password,
-            })
-            setSubmitting(false)
-            resetForm({
-              values: {
-                name: "",
-                username: "",
-                password: "",
-                confirmPassword: "",
-              },
-            })
-            history.push("/")
+            try {
+              setSubmitting(true)
+              const newUser = await signUpService.signUp({
+                name: values.name,
+                username: values.username,
+                password: values.password,
+              })
+              dispatch(successMessage(`New user ${newUser.name} signed up`))
+              setTimeout(() => {
+                dispatch(clearMessage())
+              }, 3000)
+              setSubmitting(false)
+              resetForm({
+                values: {
+                  name: "",
+                  username: "",
+                  password: "",
+                  confirmPassword: "",
+                },
+              })
+              history.push("/")
+            } catch (err) {
+              dispatch(errorMessage(err))
+            }
           }
         }}
       >
-        {({ values, errors, touched }) => (
+        {() => (
           <Form>
             <styleForm.Group>
               <styleForm.Label>Full Name:</styleForm.Label>
@@ -78,7 +91,7 @@ const SignUpForm = () => {
                 as={styleForm.Control}
                 autoComplete='off'
               />
-              {errors.name && touched.name ? <div>{errors.name}</div> : null}
+              <ErrorMessage name='name' />
             </styleForm.Group>
 
             <styleForm.Group>
@@ -89,9 +102,8 @@ const SignUpForm = () => {
                 as={styleForm.Control}
                 autoComplete='off'
               />
-              {errors.username && touched.username ? (
-                <div>{errors.username}</div>
-              ) : null}
+
+              <ErrorMessage name='username' />
             </styleForm.Group>
 
             <styleForm.Group>
@@ -102,9 +114,7 @@ const SignUpForm = () => {
                 as={styleForm.Control}
                 autoComplete='off'
               />
-              {errors.password && touched.password ? (
-                <div>{errors.password}</div>
-              ) : null}
+              <ErrorMessage name='password' />
             </styleForm.Group>
 
             <styleForm.Group>
@@ -115,12 +125,8 @@ const SignUpForm = () => {
                 as={styleForm.Control}
                 autoComplete='off'
               />
-              {errors.confirmPassword &&
-              (values.confirmPassword !== "" || touched.confirmPassword) ? (
-                <div>{errors.confirmPassword}</div>
-              ) : null}
+              <ErrorMessage name='confirmPassword' />
             </styleForm.Group>
-
             <Button variant='primary' type='submit'>
               Sign Up
             </Button>
