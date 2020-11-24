@@ -1,4 +1,4 @@
-# Full-Stack-Blog-Sharing-Frontend [Click here to see it live!](https://full-stack-blog-sharing.herokuapp.com/)
+# This is a full stack web application that allow users to share news, ideas and more. [Click here to see the live version. Sign up an account and leave a post!](https://full-stack-blog-sharing.herokuapp.com/)
 
 # Framework, library and tool used
 
