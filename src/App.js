@@ -9,10 +9,9 @@ import {
   deleteBlog,
   likeBlog,
   initializeBlogs,
-  clearBlogs,
 } from "./reducers/blogReducer"
 
-import { logoutUser, userFromToken } from "./reducers/userReducer"
+import { userFromToken } from "./reducers/userReducer"
 import { fetchAllUsers } from "./reducers/usersReducer"
 import {
   errorMessage,
@@ -20,13 +19,7 @@ import {
   clearMessage,
 } from "./reducers/notificationReducer"
 
-import {
-  Switch,
-  Route,
-  useRouteMatch,
-  Link,
-  useHistory,
-} from "react-router-dom"
+import { Switch, Route, useRouteMatch, Link } from "react-router-dom"
 import UserList from "./components/UserList"
 import Header from "./components/Header"
 import User from "./components/User"
@@ -36,11 +29,9 @@ import { Table, Container } from "react-bootstrap"
 
 const App = () => {
   const dispatch = useDispatch()
-  const history = useHistory()
   const blogs = useSelector((state) => state.blogs)
   const user = useSelector((state) => state.user)
   const users = useSelector((state) => state.users)
-  const notification = useSelector((state) => state.notification)
 
   const match = useRouteMatch("/users/:id")
   const matchBlog = useRouteMatch("/blogs/:id")
@@ -62,13 +53,6 @@ const App = () => {
       dispatch(fetchAllUsers())
     }
   }, [dispatch])
-
-  const handleLogOut = async (event) => {
-    window.localStorage.removeItem("loggedBlogUser")
-    history.push("/")
-    dispatch(logoutUser())
-    dispatch(clearBlogs())
-  }
 
   const addBlog = (blogObject) => {
     try {
@@ -168,10 +152,9 @@ const App = () => {
 
   return (
     <>
-      <Header handleLogOut={handleLogOut} />
-
+      <Header />
       <Container>
-        <Notification message={notification} />
+        <Notification />
         <Switch>
           <Route path='/users/:id'>{renderUserPanel()}</Route>
 

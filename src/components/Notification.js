@@ -1,11 +1,20 @@
-import React from 'react'
+import React from "react"
+import { Alert } from "react-bootstrap"
+import { useSelector } from "react-redux"
+const Notification = () => {
+  const { messageBody, messageStyle } = useSelector(
+    (state) => state.notification
+  )
 
-const Notification = ({ message }) => {
-  if (message === null) {
+  if (messageBody === "") {
     return null
   }
 
-  return <h2 className='error'>{message}</h2>
+  return (
+    <Alert key={messageBody} variant={messageStyle}>
+      {messageBody}
+    </Alert>
+  )
 }
 
 export default Notification

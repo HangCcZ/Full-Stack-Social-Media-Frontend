@@ -2,8 +2,11 @@ import React from "react"
 import { useSelector } from "react-redux"
 import { Button, Navbar, Nav } from "react-bootstrap"
 
-import { Link, useLocation } from "react-router-dom"
-
+import { Link, useLocation, useHistory } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { clearBlogs } from "../reducers/blogReducer"
+import { logoutUser } from "../reducers/userReducer"
+import { clearMessage, infoMessage } from "../reducers/notificationReducer"
 const padding = {
   padding: 5,
 }
@@ -12,9 +15,23 @@ const margins = {
   margin: 5,
 }
 
-const Header = ({ handleLogOut }) => {
+const Header = () => {
   const user = useSelector((state) => state.user)
+  const history = useHistory()
   const location = useLocation()
+  const dispatch = useDispatch()
+
+  const handleLogOut = async (event) => {
+    const name = user.name
+    window.localStorage.removeItem("loggedBlogUser")
+    history.push("/")
+    dispatch(logoutUser())
+    dispatch(clearBlogs())
+    dispatch(infoMessage(`User ${name} logged out`))
+    setTimeout(() => {
+      dispatch(clearMessage())
+    }, 3000)
+  }
 
   if (!user) {
     return (

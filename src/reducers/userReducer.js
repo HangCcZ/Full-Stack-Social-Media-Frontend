@@ -31,7 +31,7 @@ export const loginUser = (username, password) => {
         type: "SUCCESS",
         data: { user },
       })
-      dispatch(successMessage(`user ${user.username} logged in`))
+      dispatch(successMessage(`User ${user.username} logged in`))
       dispatch(initializeBlogs())
     } catch (exception) {
       dispatch({ type: "FAIL" })

@@ -20,7 +20,7 @@ const LoginForm = () => {
   }
 
   return (
-    <div>
+    <div style={{ marginTop: "1rem" }}>
       <Formik
         initialValues={{ username: "", password: "" }}
         onSubmit={onFormSubmit}
