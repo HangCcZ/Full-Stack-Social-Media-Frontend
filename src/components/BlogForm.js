@@ -1,42 +1,14 @@
 /* eslint-disable indent */
-import React, { useState } from "react"
+import React from "react"
 import PropTypes from "prop-types"
-import { Button, Form, Alert } from "react-bootstrap"
-const BlogForm = ({ createBlog, onCancleClick }) => {
-  const [title, setTitle] = useState("")
-  const [author, setAuthor] = useState("")
-  const [url, setUrl] = useState("")
-  const handleNewBlogChange = (event) => {
-    switch (event.target.name) {
-      case "title":
-        setTitle(event.target.value)
-        break
-      case "author":
-        setAuthor(event.target.value)
-        break
-      case "url":
-        setUrl(event.target.value)
-        break
-      default:
-        break
-    }
-  }
+import { Button, Form as styleForm, Alert } from "react-bootstrap"
+import { Formik, Field, Form, ErrorMessage } from "formik"
+import * as Yup from "yup"
+import { useDispatch } from "react-redux"
+import { createBlog } from "../reducers/blogReducer"
 
-  const clearBlogFields = () => {
-    setTitle("")
-    setUrl("")
-    setAuthor("")
-  }
-  const addBlog = (event) => {
-    event.preventDefault()
-    const newBlog = {
-      title,
-      author,
-      url,
-    }
-    createBlog(newBlog)
-    clearBlogFields()
-  }
+const BlogForm = ({ toggleForm }) => {
+  const dispatch = useDispatch()
 
   return (
     <>
@@ -44,17 +16,81 @@ const BlogForm = ({ createBlog, onCancleClick }) => {
         <h2>Create a new blog</h2>
       </Alert>
 
-      <Form onSubmit={addBlog}>
-        <Form.Group>
-          <Form.Label>title:</Form.Label>
+      <Formik
+        initialValues={{ title: "", author: "", url: "" }}
+        onSubmit={(values, { resetForm, setSubmitting }) => {
+          setSubmitting(true)
+          const newBlog = {
+            title: values.title,
+            author: values.author,
+            url: values.url,
+          }
+          dispatch(createBlog(newBlog))
+          setSubmitting(false)
+          resetForm({
+            values: {
+              title: "",
+              author: "",
+              url: "",
+            },
+          })
+          toggleForm()
+        }}
+      >
+        {() => (
+          <Form>
+            <styleForm.Group>
+              <styleForm.Label>Title:</styleForm.Label>
+              <Field
+                name='title'
+                type='input'
+                as={styleForm.Control}
+                autoComplete='off'
+              />
+            </styleForm.Group>
 
-          <Form.Control
-            id='title'
-            type='text'
-            value={title}
-            name='title'
-            onChange={handleNewBlogChange}
-          />
+            <styleForm.Group>
+              <styleForm.Label>Author:</styleForm.Label>
+              <Field
+                name='author'
+                type='input'
+                as={styleForm.Control}
+                autoComplete='off'
+              />
+            </styleForm.Group>
+
+            <styleForm.Group>
+              <styleForm.Label>Url:</styleForm.Label>
+              <Field
+                name='url'
+                type='input'
+                as={styleForm.Control}
+                autoComplete='off'
+              />
+            </styleForm.Group>
+
+            <div style={{ display: "flex" }}>
+              <Button
+                variant='secondary'
+                id='cancel-button'
+                onClick={toggleForm}
+                style={{ marginRight: "auto" }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant='primary'
+                id='create-button'
+                type='submit'
+                style={{ marginLeft: "auto" }}
+              >
+                Create
+              </Button>
+            </div>
+          </Form>
+        )}
+        {/* <Form.Group>
+          
 
           <Form.Label>author:</Form.Label>
           <Form.Control
@@ -92,7 +128,8 @@ const BlogForm = ({ createBlog, onCancleClick }) => {
             Create
           </Button>
         </div>
-      </Form>
+      </Form> */}
+      </Formik>
     </>
   )
 }
