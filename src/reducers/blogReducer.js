@@ -1,5 +1,9 @@
 import blogService from "../services/blogs"
-
+import {
+  successMessage,
+  errorMessage,
+  clearMessage,
+} from "./notificationReducer"
 const blogReducer = (state = [], action) => {
   switch (action.type) {
     case "INIT_BLOGS":
@@ -35,11 +39,23 @@ export const commentBlog = (blogObject, comment) => {
 
 export const createBlog = (blogObject) => {
   return async (dispatch) => {
-    const newBlog = await blogService.create(blogObject)
-    dispatch({
-      type: "NEW_BLOG",
-      data: { newBlog },
-    })
+    try {
+      const newBlog = await blogService.create(blogObject)
+      dispatch({
+        type: "NEW_BLOG",
+        data: { newBlog },
+      })
+      dispatch(
+        successMessage(
+          `a new blog ${newBlog.title} by ${newBlog.author} created`
+        )
+      )
+      setTimeout(() => {
+        dispatch(clearMessage())
+      }, 3000)
+    } catch (exception) {
+      dispatch(errorMessage(`Error creating a new blog ${exception}`))
+    }
   }
 }
 
