@@ -18,6 +18,7 @@
 - [x] Update sign-up notification **Updated on Nov 23 2020**
 - [x] Update sign-in notification **Updated on Nov 23 2020**
 - [ ] Refactor blog form with formik
+- [ ] Refactor comment form with formik
 - [ ] Add a new content field with markdown (Draft.js)
 - [ ] Allow user to upload images
 
