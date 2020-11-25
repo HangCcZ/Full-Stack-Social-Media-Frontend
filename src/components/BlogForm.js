@@ -1,8 +1,8 @@
 /* eslint-disable indent */
 import React, { useState } from "react"
 import PropTypes from "prop-types"
-import { Button, Form } from "react-bootstrap"
-const BlogForm = ({ createBlog }) => {
+import { Button, Form, Alert } from "react-bootstrap"
+const BlogForm = ({ createBlog, onCancleClick }) => {
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")
   const [url, setUrl] = useState("")
@@ -40,7 +40,10 @@ const BlogForm = ({ createBlog }) => {
 
   return (
     <>
-      <h2>Create a new blog</h2>
+      <Alert variant='primary'>
+        <h2>Create a new blog</h2>
+      </Alert>
+
       <Form onSubmit={addBlog}>
         <Form.Group>
           <Form.Label>title:</Form.Label>
@@ -71,10 +74,24 @@ const BlogForm = ({ createBlog }) => {
             onChange={handleNewBlogChange}
           />
         </Form.Group>
-
-        <Button variant='primary' id='create-button' type='submit'>
-          create
-        </Button>
+        <div style={{ display: "flex" }}>
+          <Button
+            variant='secondary'
+            id='cancel-button'
+            onClick={onCancleClick}
+            style={{ marginRight: "auto" }}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant='primary'
+            id='create-button'
+            type='submit'
+            style={{ marginLeft: "auto" }}
+          >
+            Create
+          </Button>
+        </div>
       </Form>
     </>
   )

@@ -95,6 +95,10 @@ const App = () => {
     }
   }
 
+  const onFormCancle = () => {
+    blogFormRef.current.toggleVisibility()
+  }
+
   const blogForm = () => (
     <Togglable
       buttonLabel='Post a new blog'
@@ -102,7 +106,7 @@ const App = () => {
       ref={blogFormRef}
     >
       <div>
-        <BlogForm createBlog={addBlog} />
+        <BlogForm createBlog={addBlog} onCancleClick={onFormCancle} />
       </div>
     </Togglable>
   )
