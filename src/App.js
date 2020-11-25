@@ -4,20 +4,11 @@ import Notification from "./components/Notification"
 import Togglable from "./components/Togglable"
 import BlogForm from "./components/BlogForm"
 import { useDispatch, useSelector } from "react-redux"
-import {
-  createBlog,
-  deleteBlog,
-  likeBlog,
-  initializeBlogs,
-} from "./reducers/blogReducer"
+import { deleteBlog, likeBlog, initializeBlogs } from "./reducers/blogReducer"
 
 import { userFromToken } from "./reducers/userReducer"
 import { fetchAllUsers } from "./reducers/usersReducer"
-import {
-  errorMessage,
-  successMessage,
-  clearMessage,
-} from "./reducers/notificationReducer"
+import { errorMessage, clearMessage } from "./reducers/notificationReducer"
 
 import { Switch, Route, useRouteMatch, Link } from "react-router-dom"
 import UserList from "./components/UserList"
@@ -54,25 +45,6 @@ const App = () => {
     }
   }, [dispatch])
 
-  const addBlog = (blogObject) => {
-    try {
-      dispatch(createBlog(blogObject))
-
-      blogFormRef.current.toggleVisibility()
-
-      dispatch(
-        successMessage(
-          `a new blog ${blogObject.title} by ${blogObject.author} created`
-        )
-      )
-      setTimeout(() => {
-        dispatch(clearMessage())
-      }, 3000)
-    } catch (exception) {
-      dispatch(errorMessage("Error creating a new blog "))
-    }
-  }
-
   const addLike = (blogObject) => {
     try {
       dispatch(likeBlog(blogObject))
@@ -106,7 +78,7 @@ const App = () => {
       ref={blogFormRef}
     >
       <div>
-        <BlogForm createBlog={addBlog} onCancleClick={onFormCancle} />
+        <BlogForm toggleForm={onFormCancle} />
       </div>
     </Togglable>
   )
