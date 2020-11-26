@@ -7,8 +7,8 @@ const EditorComponent = () => (
   wrapperClassName="wrapper-class"
   editorClassName="editor-class"
   toolbarClassName="toolbar-class"
-  toolbarStyle = {{border:"none",borderBottom:"1px solid #e3e6ea"}}
-  wrapperStyle={{ border: "1px solid #e3e6ea",borderRadius:"5px" }}
+  toolbarStyle = {{border:"none",borderBottom:"1px solid #d4d9de"}}
+  wrapperStyle={{ border: "1px solid #d4d9de",borderRadius:"5px" }}
     toolbar={{
       options: [
         "inline",
