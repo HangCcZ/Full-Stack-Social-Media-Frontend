@@ -6,7 +6,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik"
 import * as Yup from "yup"
 import { useDispatch } from "react-redux"
 import { createBlog } from "../reducers/blogReducer"
-
+import Content from "../components/Content"
 const BlogForm = ({ toggleForm }) => {
   const dispatch = useDispatch()
 
@@ -68,7 +68,7 @@ const BlogForm = ({ toggleForm }) => {
                 autoComplete='off'
               />
             </styleForm.Group>
-
+            <Content />
             <div style={{ display: "flex" }}>
               <Button
                 variant='secondary'

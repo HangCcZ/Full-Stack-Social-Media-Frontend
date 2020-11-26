@@ -48,13 +48,13 @@ const Header = () => {
           {location.pathname === "/signup" ? (
             <Nav className='justify-content-end'>
               <Nav.Link as={Link} to='/'>
-                Log In
+                Sign in
               </Nav.Link>
             </Nav>
           ) : (
             <Nav className='justify-content-end'>
               <Nav.Link as={Link} to='/signup'>
-                Sign Up
+                Sign up
               </Nav.Link>
             </Nav>
           )}
@@ -68,7 +68,7 @@ const Header = () => {
       <Navbar.Text>
         Hi, {user.name}
         <Button variant='secondary' style={margins} onClick={handleLogOut}>
-          LOG OUT
+          Sign out
         </Button>
       </Navbar.Text>
     )

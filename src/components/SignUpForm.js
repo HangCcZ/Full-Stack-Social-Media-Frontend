@@ -42,7 +42,7 @@ const SignUpForm = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   return (
-    <div>
+    <div style={{ marginTop: "1rem" }}>
       <Formik
         initialValues={{
           name: "",
