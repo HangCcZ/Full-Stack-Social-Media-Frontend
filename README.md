@@ -18,6 +18,7 @@
 - [x] Update sign-up notification **Updated on Nov 23 2020**
 - [x] Update sign-in notification **Updated on Nov 23 2020**
 - [x] Refactor blog form with formik **Updated on Nov 25 2020**
+- [x] Add a Footer component
 - [ ] Refactor comment form with formik
 - [ ] Add markdown support(Draft.js) to blog form
 - [ ] Add markdown support(Draft.js) to comment form

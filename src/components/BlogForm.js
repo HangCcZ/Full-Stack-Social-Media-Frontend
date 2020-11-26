@@ -68,7 +68,11 @@ const BlogForm = ({ toggleForm }) => {
                 autoComplete='off'
               />
             </styleForm.Group>
-            <Content />
+            <styleForm.Group>
+              <styleForm.Label>Content:</styleForm.Label>
+             <Content />
+            </styleForm.Group>
+          
             <div style={{ display: "flex" }}>
               <Button
                 variant='secondary'
