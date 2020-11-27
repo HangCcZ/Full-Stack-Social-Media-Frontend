@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import React from "react"
+import React, { useState, useRef } from "react"
 import PropTypes from "prop-types"
 import { Button, Form as styleForm, Alert } from "react-bootstrap"
 import { Formik, Field, Form, ErrorMessage } from "formik"
@@ -7,8 +7,15 @@ import * as Yup from "yup"
 import { useDispatch } from "react-redux"
 import { createBlog } from "../reducers/blogReducer"
 import Content from "../components/Content"
+import { convertFromRaw, convertToRaw } from "draft-js"
+
 const BlogForm = ({ toggleForm }) => {
+  const [rawContent, setRawContent] = useState({})
   const dispatch = useDispatch()
+  const editorRef = useRef()
+  const handleEditorSubmit = (rawContent) => {
+    setRawContent(rawContent)
+  }
 
   return (
     <>
@@ -20,6 +27,10 @@ const BlogForm = ({ toggleForm }) => {
         initialValues={{ title: "", author: "", url: "" }}
         onSubmit={(values, { resetForm, setSubmitting }) => {
           setSubmitting(true)
+          console.log(
+            "Content from the rich editor",
+            convertToRaw(editorRef.current.editorContent)
+          )
           const newBlog = {
             title: values.title,
             author: values.author,
@@ -70,9 +81,9 @@ const BlogForm = ({ toggleForm }) => {
             </styleForm.Group>
             <styleForm.Group>
               <styleForm.Label>Content:</styleForm.Label>
-             <Content />
+              <Content ref={editorRef} />
             </styleForm.Group>
-          
+
             <div style={{ display: "flex" }}>
               <Button
                 variant='secondary'
@@ -93,53 +104,13 @@ const BlogForm = ({ toggleForm }) => {
             </div>
           </Form>
         )}
-        {/* <Form.Group>
-          
-
-          <Form.Label>author:</Form.Label>
-          <Form.Control
-            type='text'
-            id='author'
-            value={author}
-            name='author'
-            onChange={handleNewBlogChange}
-          />
-
-          <Form.Label>url:</Form.Label>
-          <Form.Control
-            type='text'
-            value={url}
-            name='url'
-            id='url'
-            onChange={handleNewBlogChange}
-          />
-        </Form.Group>
-        <div style={{ display: "flex" }}>
-          <Button
-            variant='secondary'
-            id='cancel-button'
-            onClick={onCancleClick}
-            style={{ marginRight: "auto" }}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant='primary'
-            id='create-button'
-            type='submit'
-            style={{ marginLeft: "auto" }}
-          >
-            Create
-          </Button>
-        </div>
-      </Form> */}
       </Formik>
     </>
   )
 }
 
-BlogForm.propTypes = {
-  createBlog: PropTypes.func.isRequired,
-}
+// BlogForm.propTypes = {
+//   createBlog: PropTypes.func.isRequired,
+// }
 
 export default BlogForm
