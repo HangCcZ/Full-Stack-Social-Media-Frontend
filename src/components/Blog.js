@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux"
 import CommentForm from "./CommentForm"
 import { Button, Card } from "react-bootstrap"
 import { useHistory } from "react-router-dom"
+import draftToHtml from "draftjs-to-html"
+import ReactMarkdown from "react-markdown"
 const Blog = ({ blog, clickLike, removeBlog, user }) => {
   const dispatch = useDispatch()
   const history = useHistory()
@@ -48,12 +50,23 @@ const Blog = ({ blog, clickLike, removeBlog, user }) => {
     return null
   }
 
+  const draftToHtmlConverter = () => {
+    const jsContent = JSON.parse(blog.content)
+    const htmlContent = draftToHtml(jsContent)
+    console.log(typeof htmlContent)
+    return htmlContent
+  }
+
   const blogDetail = () => {
     return (
       <div>
         <Card>
           <Card.Body>
             <Card.Title>{blog.title}</Card.Title>
+            <Card.Text>
+              <ReactMarkdown>{blog.content}</ReactMarkdown>
+            </Card.Text>
+
             <Card.Text>
               {blog.likes} likes{" "}
               <Button
@@ -68,9 +81,11 @@ const Blog = ({ blog, clickLike, removeBlog, user }) => {
           </Card.Body>
 
           <Card.Body>
-            <Card.Title>Comments</Card.Title>
-            <Comments blog={blog} />
             <CommentForm blog={blog} addComment={addComment} />
+          </Card.Body>
+
+          <Card.Body>
+            <Comments blog={blog} />
           </Card.Body>
         </Card>
       </div>

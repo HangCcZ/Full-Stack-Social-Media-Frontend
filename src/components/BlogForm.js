@@ -1,21 +1,13 @@
 /* eslint-disable indent */
-import React, { useState, useRef } from "react"
-import PropTypes from "prop-types"
+import React from "react"
 import { Button, Form as styleForm, Alert } from "react-bootstrap"
 import { Formik, Field, Form, ErrorMessage } from "formik"
 import * as Yup from "yup"
 import { useDispatch } from "react-redux"
 import { createBlog } from "../reducers/blogReducer"
-import Content from "../components/Content"
-import { convertFromRaw, convertToRaw } from "draft-js"
 
 const BlogForm = ({ toggleForm }) => {
-  const [rawContent, setRawContent] = useState({})
   const dispatch = useDispatch()
-  const editorRef = useRef()
-  const handleEditorSubmit = (rawContent) => {
-    setRawContent(rawContent)
-  }
 
   return (
     <>
@@ -24,17 +16,14 @@ const BlogForm = ({ toggleForm }) => {
       </Alert>
 
       <Formik
-        initialValues={{ title: "", author: "", url: "" }}
+        initialValues={{ title: "", author: "", url: "", content: "" }}
         onSubmit={(values, { resetForm, setSubmitting }) => {
           setSubmitting(true)
-          console.log(
-            "Content from the rich editor",
-            convertToRaw(editorRef.current.editorContent)
-          )
           const newBlog = {
             title: values.title,
             author: values.author,
             url: values.url,
+            content: values.content,
           }
           dispatch(createBlog(newBlog))
           setSubmitting(false)
@@ -43,6 +32,7 @@ const BlogForm = ({ toggleForm }) => {
               title: "",
               author: "",
               url: "",
+              content: "",
             },
           })
           toggleForm()
@@ -79,9 +69,18 @@ const BlogForm = ({ toggleForm }) => {
                 autoComplete='off'
               />
             </styleForm.Group>
+
             <styleForm.Group>
               <styleForm.Label>Content:</styleForm.Label>
-              <Content ref={editorRef} />
+              <Field name='content'>
+                {({ field }) => (
+                  <styleForm.Control
+                    as='textarea'
+                    rows={4}
+                    {...field}
+                  ></styleForm.Control>
+                )}
+              </Field>
             </styleForm.Group>
 
             <div style={{ display: "flex" }}>

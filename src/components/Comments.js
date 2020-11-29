@@ -1,17 +1,20 @@
 import React from "react"
-import { ListGroup } from "react-bootstrap"
+import { ListGroup, Card } from "react-bootstrap"
+import ReactMarkdown from "react-markdown"
 const Comments = ({ blog }) => {
   if (!blog.comments) {
     return null
   }
   return (
-    <div>
+    <>
       <ListGroup>
         {blog.comments.map((comment) => (
-          <ListGroup.Item key={comment}>{comment}</ListGroup.Item>
+          <ListGroup.Item key={comment}>
+            <ReactMarkdown>{comment}</ReactMarkdown>
+          </ListGroup.Item>
         ))}
       </ListGroup>
-    </div>
+    </>
   )
 }
 
