@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux"
 import CommentForm from "./CommentForm"
 import { Button, Card } from "react-bootstrap"
 import { useHistory } from "react-router-dom"
-import draftToHtml from "draftjs-to-html"
 import ReactMarkdown from "react-markdown"
 const Blog = ({ blog, clickLike, removeBlog, user }) => {
   const dispatch = useDispatch()
@@ -48,13 +47,6 @@ const Blog = ({ blog, clickLike, removeBlog, user }) => {
       )
     }
     return null
-  }
-
-  const draftToHtmlConverter = () => {
-    const jsContent = JSON.parse(blog.content)
-    const htmlContent = draftToHtml(jsContent)
-    console.log(typeof htmlContent)
-    return htmlContent
   }
 
   const blogDetail = () => {

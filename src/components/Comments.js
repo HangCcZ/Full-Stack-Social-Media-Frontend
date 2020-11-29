@@ -1,5 +1,5 @@
 import React from "react"
-import { ListGroup, Card } from "react-bootstrap"
+import { ListGroup } from "react-bootstrap"
 import ReactMarkdown from "react-markdown"
 const Comments = ({ blog }) => {
   if (!blog.comments) {
