@@ -25,6 +25,8 @@
 - [ ] Add date property to blog posts
 - [ ] Allow user to upload images
 - [ ] Add blog search functionality
+- [ ] Add sorting functionality
+- [ ] Add Pagination
 
 ---
 
