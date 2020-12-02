@@ -1,6 +1,6 @@
-import React, { useState } from "react"
+import React from "react"
 import { Form as styleForm, Button } from "react-bootstrap"
-import { Formik, Field, Form, ErrorMessage } from "formik"
+import { Formik, Field, Form } from "formik"
 import { useSelector } from "react-redux"
 const CommentForm = ({ addComment }) => {
   const user = useSelector((state) => state.user)

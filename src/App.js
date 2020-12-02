@@ -17,7 +17,7 @@ import User from "./components/User"
 import LoginForm from "./components/LoginForm"
 import SignUpForm from "./components/SignUpForm"
 import { Table, Container } from "react-bootstrap"
-import Footer from "./components/Footer"
+import "./index.css"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -128,9 +128,9 @@ const App = () => {
   )
 
   return (
-    <div>
+    <div className='content'>
       <Header />
-      <Container style={{ display: "flexbox", flexDirection: "column" }}>
+      <Container style={{ flex: "1 0 auto" }}>
         <Notification />
         <Switch>
           <Route path='/users/:id'>{renderUserPanel()}</Route>
@@ -148,7 +148,6 @@ const App = () => {
           </Route>
         </Switch>
       </Container>
-      <Footer />
     </div>
   )
 }

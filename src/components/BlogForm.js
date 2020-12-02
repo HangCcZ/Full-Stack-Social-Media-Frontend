@@ -1,8 +1,7 @@
 /* eslint-disable indent */
 import React from "react"
 import { Button, Form as styleForm, Alert } from "react-bootstrap"
-import { Formik, Field, Form, ErrorMessage } from "formik"
-import * as Yup from "yup"
+import { Formik, Field, Form } from "formik"
 import { useDispatch } from "react-redux"
 import { createBlog } from "../reducers/blogReducer"
 
