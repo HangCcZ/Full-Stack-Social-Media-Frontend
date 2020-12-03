@@ -4,6 +4,7 @@ import {
   errorMessage,
   clearMessage,
 } from "./notificationReducer"
+
 const blogReducer = (state = [], action) => {
   switch (action.type) {
     case "INIT_BLOGS":
@@ -72,6 +73,7 @@ export const likeBlog = (blogObject) => {
 export const deleteBlog = (blogObject) => {
   return async (dispatch) => {
     await blogService.deleteBlog(blogObject)
+
     dispatch({
       type: "DELETE_BLOG",
       data: { id: blogObject.id },

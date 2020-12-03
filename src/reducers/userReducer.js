@@ -39,7 +39,7 @@ export const loginUser = (username, password) => {
     }
     setTimeout(() => {
       dispatch(clearMessage())
-    }, 5000)
+    }, 2000)
   }
 }
 

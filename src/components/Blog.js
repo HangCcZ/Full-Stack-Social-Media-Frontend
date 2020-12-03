@@ -6,7 +6,9 @@ import CommentForm from "./CommentForm"
 import { Button, Card } from "react-bootstrap"
 import { useHistory } from "react-router-dom"
 import ReactMarkdown from "react-markdown"
-const Blog = ({ blog, clickLike, removeBlog, user }) => {
+import { deleteBlog, likeBlog } from "../reducers/blogReducer"
+import { errorMessage, clearMessage } from "../reducers/notificationReducer"
+const Blog = ({ blog, user }) => {
   const dispatch = useDispatch()
   const history = useHistory()
   if (!user) {
@@ -18,13 +20,29 @@ const Blog = ({ blog, clickLike, removeBlog, user }) => {
   }
 
   const onLikesClick = () => {
-    clickLike(blog)
+    try {
+      dispatch(likeBlog(blog))
+    } catch (exception) {
+      dispatch(errorMessage("error updating the vlog"))
+      setTimeout(() => {
+        dispatch(clearMessage())
+      }, 3000)
+    }
   }
 
   const onRemoveClick = () => {
+    // add a confirmation component here
     const result = window.confirm(`Remove blog ${blog.title} by ${blog.author}`)
     if (result) {
-      removeBlog(blog)
+      try {
+        dispatch(deleteBlog(blog))
+        history.push("/")
+      } catch (exception) {
+        dispatch(errorMessage(`error deleting the vlog, error: ${exception}`))
+        setTimeout(() => {
+          dispatch(clearMessage())
+        }, 3000)
+      }
     }
   }
 
@@ -53,8 +71,8 @@ const Blog = ({ blog, clickLike, removeBlog, user }) => {
     return (
       <div>
         <Card>
+          <Card.Header>{blog.title}</Card.Header>
           <Card.Body>
-            <Card.Title>{blog.title}</Card.Title>
             <Card.Text>
               <ReactMarkdown>{blog.content}</ReactMarkdown>
             </Card.Text>

@@ -4,11 +4,10 @@ import Notification from "./components/Notification"
 import Togglable from "./components/Togglable"
 import BlogForm from "./components/BlogForm"
 import { useDispatch, useSelector } from "react-redux"
-import { deleteBlog, likeBlog, initializeBlogs } from "./reducers/blogReducer"
+import { initializeBlogs } from "./reducers/blogReducer"
 
 import { userFromToken } from "./reducers/userReducer"
 import { fetchAllUsers } from "./reducers/usersReducer"
-import { errorMessage, clearMessage } from "./reducers/notificationReducer"
 
 import { Switch, Route, useRouteMatch, Link } from "react-router-dom"
 import UserList from "./components/UserList"
@@ -24,7 +23,6 @@ const App = () => {
   const blogs = useSelector((state) => state.blogs)
   const user = useSelector((state) => state.user)
   const users = useSelector((state) => state.users)
-
   const match = useRouteMatch("/users/:id")
   const matchBlog = useRouteMatch("/blogs/:id")
   const individualUser = match
@@ -45,28 +43,6 @@ const App = () => {
       dispatch(fetchAllUsers())
     }
   }, [dispatch])
-
-  const addLike = (blogObject) => {
-    try {
-      dispatch(likeBlog(blogObject))
-    } catch (exception) {
-      dispatch(errorMessage("error updating the vlog"))
-      setTimeout(() => {
-        dispatch(clearMessage())
-      }, 3000)
-    }
-  }
-
-  const removeBlog = async (blogObject) => {
-    try {
-      dispatch(deleteBlog(blogObject))
-    } catch (exception) {
-      dispatch(errorMessage(`error deleting the vlog, error: ${exception}`))
-      setTimeout(() => {
-        dispatch(clearMessage())
-      }, 3000)
-    }
-  }
 
   const onFormCancle = () => {
     blogFormRef.current.toggleVisibility()
@@ -118,12 +94,7 @@ const App = () => {
 
   const renderSingleBlog = () => (
     <div>
-      <Blog
-        blog={individualBlog}
-        clickLike={addLike}
-        removeBlog={removeBlog}
-        user={user}
-      />
+      <Blog blog={individualBlog} user={user} />
     </div>
   )
 
