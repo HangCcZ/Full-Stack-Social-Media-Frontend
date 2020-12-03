@@ -1,7 +1,7 @@
 import React from "react"
 import signUpService from "../services/signup"
 import { Formik, Field, Form, ErrorMessage } from "formik"
-import { Form as styleForm, Button } from "react-bootstrap"
+import { Form as styleForm, Button, Alert } from "react-bootstrap"
 import { useHistory } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import * as Yup from "yup"
@@ -91,7 +91,9 @@ const SignUpForm = () => {
                 as={styleForm.Control}
                 autoComplete='off'
               />
-              <ErrorMessage name='name' />
+              <ErrorMessage name='name'>
+                {(msg) => <Alert variant='warning'>{msg}</Alert>}
+              </ErrorMessage>
             </styleForm.Group>
 
             <styleForm.Group>
@@ -103,7 +105,9 @@ const SignUpForm = () => {
                 autoComplete='off'
               />
 
-              <ErrorMessage name='username' />
+              <ErrorMessage name='username'>
+                {(msg) => <Alert variant='warning'>{msg}</Alert>}
+              </ErrorMessage>
             </styleForm.Group>
 
             <styleForm.Group>
@@ -114,7 +118,9 @@ const SignUpForm = () => {
                 as={styleForm.Control}
                 autoComplete='off'
               />
-              <ErrorMessage name='password' />
+              <ErrorMessage name='password'>
+                {(msg) => <Alert variant='warning'>{msg}</Alert>}
+              </ErrorMessage>
             </styleForm.Group>
 
             <styleForm.Group>
@@ -125,7 +131,9 @@ const SignUpForm = () => {
                 as={styleForm.Control}
                 autoComplete='off'
               />
-              <ErrorMessage name='confirmPassword' />
+              <ErrorMessage name='confirmPassword'>
+                {(msg) => <Alert variant='warning'>{msg}</Alert>}
+              </ErrorMessage>
             </styleForm.Group>
             <Button variant='primary' type='submit'>
               Sign Up
