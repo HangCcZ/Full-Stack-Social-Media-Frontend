@@ -20,6 +20,8 @@ const Blog = ({ blog, user }) => {
   }
 
   const onLikesClick = () => {
+    console.log(`blog user id:`, blog.user.id)
+    console.log(`user id from state`, user.id)
     try {
       dispatch(likeBlog(blog))
     } catch (exception) {
@@ -59,7 +61,7 @@ const Blog = ({ blog, user }) => {
             onClick={onRemoveClick}
             className='delete-button'
           >
-            remove
+            REMOVE
           </Button>
         </>
       )
@@ -73,9 +75,7 @@ const Blog = ({ blog, user }) => {
         <Card>
           <Card.Header>{blog.title}</Card.Header>
           <Card.Body>
-            <Card.Text>
-              <ReactMarkdown>{blog.content}</ReactMarkdown>
-            </Card.Text>
+            <ReactMarkdown>{blog.content}</ReactMarkdown>
 
             <Card.Text>
               {blog.likes} likes{" "}
@@ -84,7 +84,7 @@ const Blog = ({ blog, user }) => {
                 onClick={onLikesClick}
                 className='likeButton'
               >
-                Like
+                LIKE
               </Button>
               {showRemove()}
             </Card.Text>
