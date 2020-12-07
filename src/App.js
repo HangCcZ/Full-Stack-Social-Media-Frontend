@@ -9,14 +9,19 @@ import { initializeBlogs } from "./reducers/blogReducer"
 import { userFromToken } from "./reducers/userReducer"
 import { fetchAllUsers } from "./reducers/usersReducer"
 
-import { Switch, Route, useRouteMatch, Link } from "react-router-dom"
+import { Switch, Route, useRouteMatch } from "react-router-dom"
 import UserList from "./components/UserList"
 import Header from "./components/Header"
 import User from "./components/User"
 import LoginForm from "./components/LoginForm"
 import SignUpForm from "./components/SignUpForm"
-import { Table, Container } from "react-bootstrap"
+import BlogList from "./components/BlogList"
+import { Container } from "react-bootstrap"
 import "./index.css"
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
+
+dayjs.extend(relativeTime)
 
 const App = () => {
   const dispatch = useDispatch()
@@ -63,20 +68,7 @@ const App = () => {
   const showUserBlogs = () => (
     <div>
       {blogForm()}
-      <Table striped>
-        <tbody>
-          {blogs
-            .sort((a, b) => b.likes - a.likes)
-            .map((blog) => (
-              <tr key={blog.id}>
-                <td>
-                  <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-                </td>
-                <td>{blog.author}</td>
-              </tr>
-            ))}
-        </tbody>
-      </Table>
+      <BlogList />
     </div>
   )
 
