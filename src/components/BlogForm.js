@@ -23,6 +23,7 @@ const BlogForm = ({ toggleForm }) => {
             author: values.author,
             url: values.url,
             content: values.content,
+            date: Date.now(),
           }
           dispatch(createBlog(newBlog))
           setSubmitting(false)
