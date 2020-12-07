@@ -1,9 +1,17 @@
 /* eslint-disable indent */
 import React from "react"
 import { Button, Form as styleForm, Alert } from "react-bootstrap"
-import { Formik, Field, Form } from "formik"
+import { Formik, Field, Form, ErrorMessage } from "formik"
 import { useDispatch } from "react-redux"
 import { createBlog } from "../reducers/blogReducer"
+import * as Yup from "yup"
+
+const NewBlogSchema = Yup.object().shape({
+  title: Yup.string().min(8, "Too Short!").required("Required"),
+  author: Yup.string().min(8, "Too Short!").required("Required"),
+  url: Yup.string().min(8, "Too Short!").required("Required"),
+  content: Yup.string().min(8, "Too Short!").required("Required"),
+})
 
 const BlogForm = ({ toggleForm }) => {
   const dispatch = useDispatch()
@@ -16,6 +24,7 @@ const BlogForm = ({ toggleForm }) => {
 
       <Formik
         initialValues={{ title: "", author: "", url: "", content: "" }}
+        validationSchema={NewBlogSchema}
         onSubmit={(values, { resetForm, setSubmitting }) => {
           setSubmitting(true)
           const newBlog = {
@@ -48,6 +57,9 @@ const BlogForm = ({ toggleForm }) => {
                 as={styleForm.Control}
                 autoComplete='off'
               />
+              <ErrorMessage name='title'>
+                {(msg) => <Alert variant='warning'>{msg}</Alert>}
+              </ErrorMessage>
             </styleForm.Group>
 
             <styleForm.Group>
@@ -58,6 +70,9 @@ const BlogForm = ({ toggleForm }) => {
                 as={styleForm.Control}
                 autoComplete='off'
               />
+              <ErrorMessage name='author'>
+                {(msg) => <Alert variant='warning'>{msg}</Alert>}
+              </ErrorMessage>
             </styleForm.Group>
 
             <styleForm.Group>
@@ -68,6 +83,9 @@ const BlogForm = ({ toggleForm }) => {
                 as={styleForm.Control}
                 autoComplete='off'
               />
+              <ErrorMessage name='url'>
+                {(msg) => <Alert variant='warning'>{msg}</Alert>}
+              </ErrorMessage>
             </styleForm.Group>
 
             <styleForm.Group>
@@ -81,6 +99,13 @@ const BlogForm = ({ toggleForm }) => {
                   ></styleForm.Control>
                 )}
               </Field>
+              <ErrorMessage name='content'>
+                {(msg) => <Alert variant='warning'>{msg}</Alert>}
+              </ErrorMessage>
+            </styleForm.Group>
+
+            <styleForm.Group>
+              <styleForm.File id='image' label='Upload images' />
             </styleForm.Group>
 
             <div style={{ display: "flex" }}>
