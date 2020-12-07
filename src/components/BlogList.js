@@ -28,7 +28,7 @@ const BlogList = () => {
 
                 <td>
                   Posted by {renderUserLink(blog)}
-                  {` ${dayjs().from(dayjs(blog.date), true)} ago`}
+                  {` ${dayjs(blog.date).fromNow()}`}
                 </td>
               </tr>
             ))}
