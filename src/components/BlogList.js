@@ -1,29 +1,35 @@
 import React from "react"
-import { useDispatch, useSelector } from "react-redux"
-import Blog from "./Blog"
-import blogForm from "./BlogForm"
+import { useSelector } from "react-redux"
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
+import { Table } from "react-bootstrap"
+import { Link } from "react-router-dom"
+dayjs.extend(relativeTime)
+
 const BlogList = () => {
   const blogs = useSelector((state) => state.blogs)
-  const user = useSelector((state) => state.user)
+
+  const renderUserLink = ({ user }) => {
+    // const blogUser = users.find((user) => user.id === blogUserId)
+    return <Link to={`/users/${user.id}`}>{user.username}</Link>
+  }
+
   return (
     <div>
-      {blogForm()}
-      <Table>
+      <Table striped>
         <tbody>
           {blogs
             .sort((a, b) => b.likes - a.likes)
             .map((blog) => (
               <tr key={blog.id}>
                 <td>
-                  <Blog
-                    key={blog.id}
-                    blog={blog}
-                    clickLike={addLike}
-                    removeBlog={removeBlog}
-                    user={user}
-                  />
+                  <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
                 </td>
-                <td>{blog.user.name}</td>
+
+                <td>
+                  Posted by {renderUserLink(blog)}
+                  {` ${dayjs().from(dayjs(blog.date), true)} ago`}
+                </td>
               </tr>
             ))}
         </tbody>
