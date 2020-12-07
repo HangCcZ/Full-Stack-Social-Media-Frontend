@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import React from "react"
+import React, { useState } from "react"
 import { Button, Form as styleForm, Alert } from "react-bootstrap"
 import { Formik, Field, Form, ErrorMessage } from "formik"
 import { useDispatch } from "react-redux"
@@ -15,6 +15,11 @@ const NewBlogSchema = Yup.object().shape({
 
 const BlogForm = ({ toggleForm }) => {
   const dispatch = useDispatch()
+  const [files, setFiles] = useState(null)
+
+  const handleFileChange = (e) => {
+    setFiles(e.target.files)
+  }
 
   return (
     <>
@@ -23,10 +28,21 @@ const BlogForm = ({ toggleForm }) => {
       </Alert>
 
       <Formik
-        initialValues={{ title: "", author: "", url: "", content: "" }}
+        initialValues={{
+          title: "",
+          author: "",
+          url: "",
+          content: "",
+        }}
         validationSchema={NewBlogSchema}
         onSubmit={(values, { resetForm, setSubmitting }) => {
           setSubmitting(true)
+
+          const formData = new FormData()
+          for (const file in files) {
+            formData.append("files", files[file])
+          }
+
           const newBlog = {
             title: values.title,
             author: values.author,
@@ -34,8 +50,14 @@ const BlogForm = ({ toggleForm }) => {
             content: values.content,
             date: Date.now(),
           }
-          dispatch(createBlog(newBlog))
+
+          for (const [key, value] of Object.entries(newBlog)) {
+            formData.append(key, value)
+          }
+
+          dispatch(createBlog(formData))
           setSubmitting(false)
+          setFiles(null)
           resetForm({
             values: {
               title: "",
@@ -105,7 +127,12 @@ const BlogForm = ({ toggleForm }) => {
             </styleForm.Group>
 
             <styleForm.Group>
-              <styleForm.File id='image' label='Upload images' />
+              <styleForm.File
+                id='image'
+                label='Upload images'
+                onChange={handleFileChange}
+                multiple
+              />
             </styleForm.Group>
 
             <div style={{ display: "flex" }}>
