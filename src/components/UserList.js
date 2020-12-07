@@ -3,11 +3,11 @@ import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { Table } from "react-bootstrap"
 
-const UserList = ({ user }) => {
+const UserList = () => {
   const users = useSelector((state) => state.users)
   const renderUsers = () => {
     return users.map((user) => (
-      <tr key={user.name}>
+      <tr key={user.id}>
         <td>
           <Link to={`/users/${user.id}`}>{user.name}</Link>
         </td>
