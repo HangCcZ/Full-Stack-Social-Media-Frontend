@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import { Button, Form as styleForm, Alert } from "react-bootstrap"
 import { Formik, Field, Form, ErrorMessage } from "formik"
 import { useDispatch } from "react-redux"
@@ -16,7 +16,7 @@ const NewBlogSchema = Yup.object().shape({
 const BlogForm = ({ toggleForm }) => {
   const dispatch = useDispatch()
   const [files, setFiles] = useState(null)
-
+  const fileRef = useRef(null)
   const handleFileChange = (e) => {
     setFiles(e.target.files)
   }
@@ -58,6 +58,7 @@ const BlogForm = ({ toggleForm }) => {
           dispatch(createBlog(formData))
           setSubmitting(false)
           setFiles(null)
+          fileRef.current.value = ""
           resetForm({
             values: {
               title: "",
@@ -131,6 +132,7 @@ const BlogForm = ({ toggleForm }) => {
                 id='image'
                 label='Upload images'
                 onChange={handleFileChange}
+                ref={fileRef}
                 multiple
               />
             </styleForm.Group>
