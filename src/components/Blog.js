@@ -3,7 +3,7 @@ import Comments from "./Comments"
 import { commentBlog } from "../reducers/blogReducer"
 import { useDispatch } from "react-redux"
 import CommentForm from "./CommentForm"
-import { Button, Card } from "react-bootstrap"
+import { Button, Card, Carousel } from "react-bootstrap"
 import { useHistory } from "react-router-dom"
 import ReactMarkdown from "react-markdown"
 import { deleteBlog, likeBlog } from "../reducers/blogReducer"
@@ -20,8 +20,6 @@ const Blog = ({ blog, user }) => {
   }
 
   const onLikesClick = () => {
-    console.log(`blog user id:`, blog.user.id)
-    console.log(`user id from state`, user.id)
     try {
       dispatch(likeBlog(blog))
     } catch (exception) {
@@ -69,6 +67,26 @@ const Blog = ({ blog, user }) => {
     return null
   }
 
+  const renderCarousel = () => {
+    if (blog.images.length !== 0) {
+      console.log(blog.images)
+      return (
+        <Carousel
+          indicators={false}
+          interval={null}
+          controls={blog.images.length === 1 ? false : true}
+        >
+          {blog.images.map((img) => (
+            <Carousel.Item key={img.url}>
+              <img className='d-block w-100' src={img.url} alt={img.filename} />
+            </Carousel.Item>
+          ))}
+        </Carousel>
+      )
+    }
+    return null
+  }
+
   const blogDetail = () => {
     return (
       <div>
@@ -76,7 +94,9 @@ const Blog = ({ blog, user }) => {
           <Card.Header>{blog.title}</Card.Header>
           <Card.Body>
             <ReactMarkdown>{blog.content}</ReactMarkdown>
-
+            {renderCarousel()}
+          </Card.Body>
+          <Card.Body>
             <Card.Text>
               {blog.likes} likes{" "}
               <Button
