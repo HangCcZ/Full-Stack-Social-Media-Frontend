@@ -69,7 +69,6 @@ const Blog = ({ blog, user }) => {
 
   const renderCarousel = () => {
     if (blog.images.length !== 0) {
-      console.log(blog.images)
       return (
         <Carousel
           indicators={false}
@@ -78,7 +77,11 @@ const Blog = ({ blog, user }) => {
         >
           {blog.images.map((img) => (
             <Carousel.Item key={img.url}>
-              <img className='d-block w-100' src={img.url} alt={img.filename} />
+              <img
+                className='d-block w-100'
+                src={img.thumbnail}
+                alt={img.filename}
+              />
             </Carousel.Item>
           ))}
         </Carousel>
@@ -94,8 +97,8 @@ const Blog = ({ blog, user }) => {
           <Card.Header>{blog.title}</Card.Header>
           <Card.Body>
             <ReactMarkdown>{blog.content}</ReactMarkdown>
-            {renderCarousel()}
           </Card.Body>
+          <Card.Body>{renderCarousel()}</Card.Body>
           <Card.Body>
             <Card.Text>
               {blog.likes} likes{" "}
