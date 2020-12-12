@@ -62,22 +62,36 @@ export const createBlog = (blogObject) => {
 
 export const likeBlog = (blogObject) => {
   return async (dispatch) => {
-    const updatedBlog = await blogService.updateLikes(blogObject)
-    dispatch({
-      type: "LIKE_BLOG",
-      data: { updatedBlog },
-    })
+    try {
+      const updatedBlog = await blogService.updateLikes(blogObject)
+      dispatch({
+        type: "LIKE_BLOG",
+        data: { updatedBlog },
+      })
+    } catch (exception) {
+      dispatch(errorMessage(`error updating the vlog, error:${exception}`))
+      setTimeout(() => {
+        dispatch(clearMessage())
+      }, 3000)
+    }
   }
 }
 
 export const deleteBlog = (blogObject) => {
   return async (dispatch) => {
-    await blogService.deleteBlog(blogObject)
-
-    dispatch({
-      type: "DELETE_BLOG",
-      data: { id: blogObject.id },
-    })
+    try {
+      await blogService.deleteBlog(blogObject)
+      dispatch(successMessage(`The blog ${blogObject.title} has been deleted.`))
+      dispatch({
+        type: "DELETE_BLOG",
+        data: { id: blogObject.id },
+      })
+    } catch (exception) {
+      dispatch(errorMessage(`error deleting the vlog, error: ${exception}`))
+      setTimeout(() => {
+        dispatch(clearMessage())
+      }, 3000)
+    }
   }
 }
 
