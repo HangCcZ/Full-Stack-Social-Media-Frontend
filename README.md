@@ -24,8 +24,8 @@
 ![Image of a carousel](https://github.com/HangCcZ/App-Screenshots/blob/main/full-stack-blog-site/blogImage_Carousel.PNG)
 ### Blog deletion modal
 ![Image of a deletion modal](https://github.com/HangCcZ/App-Screenshots/blob/main/full-stack-blog-site/blog_delete_modal.PNG)
-
-### Future plans and updates on the application:
+---
+# Future plans and updates on the application:
 
 - [x] Modify Header component in sign-up page - **Updated on Nov 21 2020**
 - [x] Refactor sign-in form with formik - **Updated on Nov 22 2020**
