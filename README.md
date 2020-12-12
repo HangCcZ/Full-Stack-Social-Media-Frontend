@@ -20,7 +20,10 @@ Showing a sample blog
 ![Image of a blog with markdown](https://github.com/HangCcZ/App-Screenshots/blob/main/full-stack-blog-site/blogItem.PNG)
 User can like and comment the blog
 ![Image of the blog being liked and commented](https://github.com/HangCcZ/App-Screenshots/blob/main/full-stack-blog-site/blogItem_like_comment.PNG)
-
+Suppport image upload and display image in a carousel
+![Image of a carousel](https://github.com/HangCcZ/App-Screenshots/blob/main/full-stack-blog-site/blogImage_Carousel.PNG)
+Blog deletion modal
+![Image of a deletion modal](https://github.com/HangCcZ/App-Screenshots/blob/main/full-stack-blog-site/blog_delete_modal.PNG)
 # Future plans and updates on the application:
 
 - [x] Modify Header component in sign-up page - **Updated on Nov 21 2020**
