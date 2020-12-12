@@ -1,9 +1,9 @@
-import React from "react"
+import React, { useState } from "react"
 import Comments from "./Comments"
 import { commentBlog } from "../reducers/blogReducer"
 import { useDispatch } from "react-redux"
 import CommentForm from "./CommentForm"
-import { Button, Card, Carousel } from "react-bootstrap"
+import { Button, Card, Carousel, Modal, Alert } from "react-bootstrap"
 import { useHistory } from "react-router-dom"
 import ReactMarkdown from "react-markdown"
 import { deleteBlog, likeBlog } from "../reducers/blogReducer"
@@ -11,6 +11,11 @@ import { errorMessage, clearMessage } from "../reducers/notificationReducer"
 const Blog = ({ blog, user }) => {
   const dispatch = useDispatch()
   const history = useHistory()
+  const [showModal, setShowModal] = useState(false)
+
+  const handleClose = () => setShowModal(false)
+  const handleShow = () => setShowModal(true)
+
   if (!user) {
     history.push("/")
   }
@@ -20,30 +25,37 @@ const Blog = ({ blog, user }) => {
   }
 
   const onLikesClick = () => {
-    try {
-      dispatch(likeBlog(blog))
-    } catch (exception) {
-      dispatch(errorMessage("error updating the vlog"))
-      setTimeout(() => {
-        dispatch(clearMessage())
-      }, 3000)
-    }
+    dispatch(likeBlog(blog))
   }
 
-  const onRemoveClick = () => {
-    // add a confirmation component here
-    const result = window.confirm(`Remove blog ${blog.title} by ${blog.author}`)
-    if (result) {
-      try {
-        dispatch(deleteBlog(blog))
-        history.push("/")
-      } catch (exception) {
-        dispatch(errorMessage(`error deleting the vlog, error: ${exception}`))
-        setTimeout(() => {
-          dispatch(clearMessage())
-        }, 3000)
-      }
-    }
+  const removeBlog = () => {
+    dispatch(deleteBlog(blog))
+    history.push("/")
+  }
+
+  const displayModal = () => {
+    return (
+      <Modal show={showModal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title as='h4'>{`Delete`}</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <Alert variant='danger'>
+            Do you want to delete this blog? This process cannot be undone.
+          </Alert>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant='secondary' onClick={handleClose}>
+            No! I'm backing off now!
+          </Button>
+          <Button variant='danger' onClick={removeBlog}>
+            Yes Sir!
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    )
   }
 
   const addComment = (comment) => {
@@ -56,10 +68,10 @@ const Blog = ({ blog, user }) => {
         <>
           <Button
             variant='danger'
-            onClick={onRemoveClick}
+            onClick={handleShow}
             className='delete-button'
           >
-            REMOVE
+            DELETE
           </Button>
         </>
       )
@@ -72,13 +84,14 @@ const Blog = ({ blog, user }) => {
       return (
         <Carousel
           indicators={false}
-          interval={null}
+          interval={3000}
           controls={blog.images.length === 1 ? false : true}
         >
           {blog.images.map((img) => (
             <Carousel.Item key={img.url}>
               <img
                 className='d-block w-100'
+                style={{ maxHeight: "25rem", objectFit: "contain" }}
                 src={img.thumbnail}
                 alt={img.filename}
               />
@@ -121,6 +134,7 @@ const Blog = ({ blog, user }) => {
             <Comments blog={blog} />
           </Card.Body>
         </Card>
+        {displayModal()}
       </div>
     )
   }
