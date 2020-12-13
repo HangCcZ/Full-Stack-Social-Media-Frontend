@@ -13,18 +13,29 @@
 # Application screenshots
 
 ### Account sign-up with validation
+
 ![Image of account sign-up with validation](https://github.com/HangCcZ/App-Screenshots/blob/main/full-stack-blog-site/signup_validate.PNG)
+
 ### User creating a blog with markdown content
+
 ![Image of creating blog with markdown](https://github.com/HangCcZ/App-Screenshots/blob/main/full-stack-blog-site/blogform.PNG)
+
 ### Showing a sample blog
+
 ![Image of a blog with markdown](https://github.com/HangCcZ/App-Screenshots/blob/main/full-stack-blog-site/blogItem.PNG)
+
 ### User can like and comment the blog
+
 ![Image of the blog being liked and commented](https://github.com/HangCcZ/App-Screenshots/blob/main/full-stack-blog-site/blogItem_like_comment.PNG)
+
 ### Suppport image upload and display image in a carousel
+
 ![Image of a carousel](https://github.com/HangCcZ/App-Screenshots/blob/main/full-stack-blog-site/blogImage_Carousel.PNG)
+
 ### Blog deletion modal
-![Image of a deletion modal](https://github.com/HangCcZ/App-Screenshots/blob/main/full-stack-blog-site/blog_delete_modal.PNG)
----
+
+## ![Image of a deletion modal](https://github.com/HangCcZ/App-Screenshots/blob/main/full-stack-blog-site/blog_delete_modal.PNG)
+
 # Future plans and updates on the application:
 
 - [x] Modify Header component in sign-up page - **Updated on Nov 21 2020**
@@ -42,9 +53,9 @@
 - [x] Add Carousel to blog body **Updated on Dec 7 2020**
 - [x] Fix Carousel images height **Updated on Dec 11 2020**
 - [x] Add blog deletion Modal **Updated on Dec 11 2020**
+- [x] Add sorting functionality **Updated on Dec 12 2020**
 - [ ] Add edit functionality
 - [ ] Add blog search functionality
-- [ ] Add sorting functionality
 - [ ] Add Pagination
 - [ ] Add styles to individual user page
 - [ ] Make application publicly visible - no sign-in required to view the posts
