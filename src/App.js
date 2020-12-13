@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import Blog from "./components/Blog"
 import Notification from "./components/Notification"
 import Togglable from "./components/Togglable"
@@ -16,6 +16,7 @@ import User from "./components/User"
 import LoginForm from "./components/LoginForm"
 import SignUpForm from "./components/SignUpForm"
 import BlogList from "./components/BlogList"
+import SortButon from "./components/SortButton"
 import { Container } from "react-bootstrap"
 import "./index.css"
 import dayjs from "dayjs"
@@ -38,7 +39,8 @@ const App = () => {
     : null
 
   const blogFormRef = useRef()
-
+  const [showSortButton, setShowSortButton] = useState(true)
+  const [sortBy, setSortBy] = useState("NEW")
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogUser")
     if (loggedUserJSON) {
@@ -55,9 +57,10 @@ const App = () => {
 
   const blogForm = () => (
     <Togglable
-      buttonLabel='Post a new blog'
+      buttonLabel='CREATE POST'
       className='newBlogToggle'
       ref={blogFormRef}
+      setShowSortButton={setShowSortButton}
     >
       <div>
         <BlogForm toggleForm={onFormCancle} />
@@ -65,10 +68,13 @@ const App = () => {
     </Togglable>
   )
 
-  const showUserBlogs = () => (
-    <div>
-      {blogForm()}
-      <BlogList />
+  const showAllBlogs = () => (
+    <div style={{ marginTop: "1rem" }}>
+      <div className={showSortButton === true ? "showFlexButtons" : ""}>
+        <SortButon showSortButton={showSortButton} setSortBy={setSortBy} />
+        {blogForm()}
+      </div>
+      <BlogList sortBy={sortBy} />
     </div>
   )
 
@@ -107,7 +113,7 @@ const App = () => {
             <SignUpForm />
           </Route>
           <Route exact path='/'>
-            {user === null ? <LoginForm /> : showUserBlogs()}
+            {user === null ? <LoginForm /> : showAllBlogs()}
           </Route>
         </Switch>
       </Container>
