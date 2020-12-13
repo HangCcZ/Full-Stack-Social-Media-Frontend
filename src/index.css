@@ -39,3 +39,16 @@ a:active {
 a:hover {
   transition: all 0.3s ease-in-out;
 }
+
+.hide {
+  display: none;
+}
+
+.displaySortButton {
+  display: "";
+}
+
+.showFlexButtons {
+  display: flex;
+  justify-content: space-between;
+}
