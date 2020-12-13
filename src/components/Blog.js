@@ -7,7 +7,6 @@ import { Button, Card, Carousel, Modal, Alert } from "react-bootstrap"
 import { useHistory } from "react-router-dom"
 import ReactMarkdown from "react-markdown"
 import { deleteBlog, likeBlog } from "../reducers/blogReducer"
-import { errorMessage, clearMessage } from "../reducers/notificationReducer"
 const Blog = ({ blog, user }) => {
   const dispatch = useDispatch()
   const history = useHistory()

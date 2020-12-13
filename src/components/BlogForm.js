@@ -22,9 +22,9 @@ const BlogForm = ({ toggleForm }) => {
   }
 
   return (
-    <>
+    <div>
       <Alert variant='primary'>
-        <h2>Create a new blog</h2>
+        <h2>CREATE</h2>
       </Alert>
 
       <Formik
@@ -158,7 +158,7 @@ const BlogForm = ({ toggleForm }) => {
           </Form>
         )}
       </Formik>
-    </>
+    </div>
   )
 }
 
