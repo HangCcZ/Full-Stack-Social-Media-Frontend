@@ -17,6 +17,7 @@ import LoginForm from "./components/LoginForm"
 import SignUpForm from "./components/SignUpForm"
 import BlogList from "./components/BlogList"
 import SortButon from "./components/SortButton"
+import Pages from "./components/Pages"
 import { Container } from "react-bootstrap"
 import "./index.css"
 import dayjs from "dayjs"
@@ -40,7 +41,13 @@ const App = () => {
 
   const blogFormRef = useRef()
   const [showSortButton, setShowSortButton] = useState(true)
-  const [sortBy, setSortBy] = useState("NEW")
+  const [sortBy, setSortBy] = useState("Newest to Oldest")
+  const [currentPage, setCurrentPage] = useState(1)
+  const [postsPerPage] = useState(10)
+
+  const indexOfLastPost = currentPage * postsPerPage
+  const indexOfFirstPost = indexOfLastPost - postsPerPage
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogUser")
     if (loggedUserJSON) {
@@ -71,10 +78,25 @@ const App = () => {
   const showAllBlogs = () => (
     <div style={{ marginTop: "1rem" }}>
       <div className={showSortButton === true ? "showFlexButtons" : ""}>
-        <SortButon showSortButton={showSortButton} setSortBy={setSortBy} />
+        <SortButon
+          showSortButton={showSortButton}
+          setSortBy={setSortBy}
+          sortBy={sortBy}
+        />
         {blogForm()}
       </div>
-      <BlogList sortBy={sortBy} />
+      <BlogList
+        sortBy={sortBy}
+        indexOfFirstPost={indexOfFirstPost}
+        indexOfLastPost={indexOfLastPost}
+        postsPerPage={postsPerPage}
+      />
+      <Pages
+        postsPerPage={postsPerPage}
+        totalPosts={blogs.length}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   )
 

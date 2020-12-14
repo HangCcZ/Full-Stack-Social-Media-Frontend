@@ -6,9 +6,8 @@ import { Table, Badge } from "react-bootstrap"
 import { Link } from "react-router-dom"
 dayjs.extend(relativeTime)
 
-const BlogList = ({ sortBy }) => {
+const BlogList = ({ sortBy, indexOfFirstPost, indexOfLastPost }) => {
   const blogs = useSelector((state) => state.blogs)
-
   const renderUserLink = ({ user }) => {
     return <Link to={`/users/${user.id}`}>{user.username}</Link>
   }
@@ -30,32 +29,54 @@ const BlogList = ({ sortBy }) => {
   }
 
   const renderTableData = (sortedBlogs) => {
-    return sortedBlogs.map((blog) => (
-      <tr key={blog.id}>
-        <td>
-          <Badge variant='light'>{blog.likes} LIKES</Badge>
-        </td>
-        <td>
-          <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-        </td>
+    return [...sortedBlogs]
+      .slice(indexOfFirstPost, indexOfLastPost)
+      .map((blog) => (
+        <tr key={blog.id}>
+          <td>
+            <Badge variant='light'>{blog.likes} LIKES</Badge>
+          </td>
+          <td>
+            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+          </td>
 
-        <td>
-          Posted by {renderUserLink(blog)}
-          {` ${dayjs(blog.date).fromNow()}`}
-        </td>
-      </tr>
-    ))
+          <td>
+            Posted by {renderUserLink(blog)}
+            {` ${dayjs(blog.date).fromNow()}`}
+          </td>
+        </tr>
+      ))
   }
+
+  // const fillTableData = () => {
+  //   const emptyDataRows = indexOfLastPost - blogs.length
+
+  //   if (emptyDataRows > 0) {
+  //     const newRows = Array.from({ length: emptyDataRows })
+  //       .fill(0)
+  //       .map((item) => (
+  //         <tr key={Math.floor(Math.random() * 1000)}>
+  //           <td></td>
+  //           <td></td>
+
+  //           <td></td>
+  //         </tr>
+  //       ))
+  //     console.log(newRows)
+  //     return newRows
+  //   }
+  //   return null
+  // }
 
   const sortBlogs = () => {
     switch (sortBy) {
-      case "NEWEST_OLDEST":
+      case "Newest to Oldest":
         return sortByNewest()
-      case "OLDEST_NEWEST":
+      case "Oldest to Newest":
         return sortByOldest()
-      case "LEAST_MOST_LIKES":
+      case "Least to Most Likes":
         return sortByLeastLikes()
-      case "MOST_LEAST_LIKES":
+      case "Most to Least Likes":
         return sortByMostLikes()
       default:
         return sortByNewest()
