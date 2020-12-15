@@ -28,8 +28,15 @@ const CommentForm = ({ addComment }) => {
               )}
             </Field>
             <styleForm.Text className='text-muted'>
-              Please follow the community's rule! This application supports
-              markdown syntax, try it out!
+              Please follow the community's rule! This application supports{` `}
+              <a
+                href='https://www.markdownguide.org/basic-syntax/'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                markdown syntax
+              </a>
+              , try it out!
             </styleForm.Text>
           </styleForm.Group>
           <Button type='submit' id='create-comment'>
