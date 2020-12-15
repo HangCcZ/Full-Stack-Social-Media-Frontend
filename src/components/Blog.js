@@ -47,7 +47,7 @@ const Blog = ({ blog, user }) => {
 
         <Modal.Footer>
           <Button variant='secondary' onClick={handleClose}>
-            No! I'm backing off now!
+            No! Take me back!
           </Button>
           <Button variant='danger' onClick={removeBlog}>
             Yes Sir!
