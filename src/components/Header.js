@@ -1,6 +1,6 @@
 import React from "react"
 import { useSelector } from "react-redux"
-import { Button, Navbar, Nav } from "react-bootstrap"
+import { Button, Navbar, Nav, Form, FormControl } from "react-bootstrap"
 
 import { Link, useLocation, useHistory } from "react-router-dom"
 import { useDispatch } from "react-redux"
@@ -15,7 +15,7 @@ const margins = {
   margin: 5,
 }
 
-const Header = () => {
+const Header = ({ setSearchTerm }) => {
   const user = useSelector((state) => state.user)
   const history = useHistory()
   const location = useLocation()
@@ -82,8 +82,9 @@ const Header = () => {
         </Link>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls='responsive-navbar-nav' />
+
       <Navbar.Collapse id='responsive-navbar-nav'>
-        <Nav className='mr-auto'>
+        <Nav>
           <Nav.Link as={Link} to='/'>
             Home
           </Nav.Link>
@@ -91,8 +92,17 @@ const Header = () => {
             Users
           </Nav.Link>
         </Nav>
-
-        <Nav className='justify-content-end'> {renderLoginMessage()}</Nav>
+        <Form inline style={{ margin: "0 auto" }}>
+          <FormControl
+            type='text'
+            placeholder='Search'
+            className='mr-sm-2'
+            onChange={(event) => {
+              setSearchTerm(event.target.value)
+            }}
+          />
+        </Form>
+        <Nav> {renderLoginMessage()}</Nav>
       </Navbar.Collapse>
     </Navbar>
   )
