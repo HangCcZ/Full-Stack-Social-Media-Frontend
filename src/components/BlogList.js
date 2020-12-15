@@ -1,35 +1,71 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useSelector } from "react-redux"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import { Table, Badge } from "react-bootstrap"
 import { Link } from "react-router-dom"
+
 dayjs.extend(relativeTime)
 
-const BlogList = ({ sortBy, indexOfFirstPost, indexOfLastPost }) => {
+const BlogList = ({
+  sortBy,
+  searchTerm,
+  indexOfFirstPost,
+  indexOfLastPost,
+  setTotalBlogs,
+}) => {
   const blogs = useSelector((state) => state.blogs)
+
+  const sortByMostLikes = () => {
+    return [...blogs].sort((a, b) => b.likes - a.likes)
+  }
+
+  const sortByLeastLikes = () => {
+    return [...blogs].sort((a, b) => a.likes - b.likes)
+  }
+
+  const sortByOldest = () => {
+    return [...blogs].sort((a, b) => a.date - b.date)
+  }
+
+  const sortByNewest = () => {
+    return [...blogs].sort((a, b) => b.date - a.date)
+  }
+
+  const sortBlogs = () => {
+    switch (sortBy) {
+      case "Newest to Oldest":
+        return sortByNewest()
+      case "Oldest to Newest":
+        return sortByOldest()
+      case "Least to Most Likes":
+        return sortByLeastLikes()
+      case "Most to Least Likes":
+        return sortByMostLikes()
+      default:
+        return sortByNewest()
+    }
+  }
+  const sortedBlogs = sortBlogs()
+  const matchedBlogs = sortedBlogs.filter((blog) =>
+    blog.title.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
   const renderUserLink = ({ user }) => {
     return <Link to={`/users/${user.id}`}>{user.username}</Link>
   }
 
-  const sortByMostLikes = () => {
-    return blogs.sort((a, b) => b.likes - a.likes)
+  const filterBlogs = () => {
+    let matchedBlogs = sortedBlogs.filter((blog) =>
+      blog.title.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    return matchedBlogs
   }
 
-  const sortByLeastLikes = () => {
-    return blogs.sort((a, b) => a.likes - b.likes)
-  }
+  const renderTableData = () => {
+    let resultBlogs = searchTerm !== "" ? filterBlogs(sortedBlogs) : sortedBlogs
 
-  const sortByOldest = () => {
-    return blogs.sort((a, b) => a.date - b.date)
-  }
-
-  const sortByNewest = () => {
-    return blogs.sort((a, b) => b.date - a.date)
-  }
-
-  const renderTableData = (sortedBlogs) => {
-    return [...sortedBlogs]
+    return [...resultBlogs]
       .slice(indexOfFirstPost, indexOfLastPost)
       .map((blog) => (
         <tr key={blog.id}>
@@ -48,47 +84,18 @@ const BlogList = ({ sortBy, indexOfFirstPost, indexOfLastPost }) => {
       ))
   }
 
-  // const fillTableData = () => {
-  //   const emptyDataRows = indexOfLastPost - blogs.length
-
-  //   if (emptyDataRows > 0) {
-  //     const newRows = Array.from({ length: emptyDataRows })
-  //       .fill(0)
-  //       .map((item) => (
-  //         <tr key={Math.floor(Math.random() * 1000)}>
-  //           <td></td>
-  //           <td></td>
-
-  //           <td></td>
-  //         </tr>
-  //       ))
-  //     console.log(newRows)
-  //     return newRows
-  //   }
-  //   return null
-  // }
-
-  const sortBlogs = () => {
-    switch (sortBy) {
-      case "Newest to Oldest":
-        return sortByNewest()
-      case "Oldest to Newest":
-        return sortByOldest()
-      case "Least to Most Likes":
-        return sortByLeastLikes()
-      case "Most to Least Likes":
-        return sortByMostLikes()
-      default:
-        return sortByNewest()
-    }
-  }
+  useEffect(() => {
+    setTotalBlogs(matchedBlogs.length)
+  }, [matchedBlogs.length, setTotalBlogs])
 
   return (
-    <div>
-      <Table striped>
-        <tbody>{renderTableData(sortBlogs())}</tbody>
-      </Table>
-    </div>
+    <>
+      <div>
+        <Table striped>
+          <tbody>{renderTableData()}</tbody>
+        </Table>
+      </div>
+    </>
   )
 }
 

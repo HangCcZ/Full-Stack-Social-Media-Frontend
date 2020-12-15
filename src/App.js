@@ -28,8 +28,10 @@ dayjs.extend(relativeTime)
 const App = () => {
   const dispatch = useDispatch()
   const blogs = useSelector((state) => state.blogs)
+
   const user = useSelector((state) => state.user)
   const users = useSelector((state) => state.users)
+
   const match = useRouteMatch("/users/:id")
   const matchBlog = useRouteMatch("/blogs/:id")
   const individualUser = match
@@ -40,11 +42,12 @@ const App = () => {
     : null
 
   const blogFormRef = useRef()
+  const [searchTerm, setSearchTerm] = useState("")
   const [showSortButton, setShowSortButton] = useState(true)
   const [sortBy, setSortBy] = useState("Newest to Oldest")
   const [currentPage, setCurrentPage] = useState(1)
   const [postsPerPage] = useState(10)
-
+  const [totalBlogs, setTotalBlogs] = useState(blogs.length)
   const indexOfLastPost = currentPage * postsPerPage
   const indexOfFirstPost = indexOfLastPost - postsPerPage
 
@@ -89,11 +92,12 @@ const App = () => {
         sortBy={sortBy}
         indexOfFirstPost={indexOfFirstPost}
         indexOfLastPost={indexOfLastPost}
-        postsPerPage={postsPerPage}
+        searchTerm={searchTerm}
+        setTotalBlogs={setTotalBlogs}
       />
       <Pages
         postsPerPage={postsPerPage}
-        totalPosts={blogs.length}
+        totalPosts={totalBlogs}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
       />
@@ -120,7 +124,7 @@ const App = () => {
 
   return (
     <div className='content'>
-      <Header />
+      <Header setSearchTerm={setSearchTerm} />
       <Container style={{ flex: "1 0 auto" }}>
         <Notification />
         <Switch>
