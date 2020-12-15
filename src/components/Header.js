@@ -15,7 +15,7 @@ const margins = {
   margin: 5,
 }
 
-const Header = ({ setSearchTerm }) => {
+const Header = ({ setSearchTerm, setCurrentPage }) => {
   const user = useSelector((state) => state.user)
   const history = useHistory()
   const location = useLocation()
@@ -99,6 +99,7 @@ const Header = ({ setSearchTerm }) => {
             className='mr-sm-2'
             onChange={(event) => {
               setSearchTerm(event.target.value)
+              setCurrentPage(1)
             }}
           />
         </Form>

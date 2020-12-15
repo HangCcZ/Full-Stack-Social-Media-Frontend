@@ -124,7 +124,7 @@ const App = () => {
 
   return (
     <div className='content'>
-      <Header setSearchTerm={setSearchTerm} />
+      <Header setSearchTerm={setSearchTerm} setCurrentPage={setCurrentPage} />
       <Container style={{ flex: "1 0 auto" }}>
         <Notification />
         <Switch>

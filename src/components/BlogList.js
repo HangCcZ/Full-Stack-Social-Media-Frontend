@@ -46,6 +46,8 @@ const BlogList = ({
         return sortByNewest()
     }
   }
+
+  // can be refactored
   const sortedBlogs = sortBlogs()
   const matchedBlogs = sortedBlogs.filter((blog) =>
     blog.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -55,16 +57,8 @@ const BlogList = ({
     return <Link to={`/users/${user.id}`}>{user.username}</Link>
   }
 
-  const filterBlogs = () => {
-    let matchedBlogs = sortedBlogs.filter((blog) =>
-      blog.title.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    return matchedBlogs
-  }
-
   const renderTableData = () => {
-    let resultBlogs = searchTerm !== "" ? filterBlogs(sortedBlogs) : sortedBlogs
-
+    let resultBlogs = searchTerm !== "" ? matchedBlogs : sortedBlogs
     return [...resultBlogs]
       .slice(indexOfFirstPost, indexOfLastPost)
       .map((blog) => (
