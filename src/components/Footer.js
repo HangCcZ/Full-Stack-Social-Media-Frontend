@@ -9,7 +9,7 @@ export default function Footer() {
         rel='noopener noreferrer'
         style={{ color: "inherit" }}
       >
-        App developed by Hang Chen
+        Designed and Developed by Hang Chen
       </a>
     </footer>
   )

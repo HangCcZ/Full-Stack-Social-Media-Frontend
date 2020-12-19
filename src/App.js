@@ -112,7 +112,20 @@ const App = () => {
 
   const renderUserPanel = () => (
     <div>
-      <User user={individualUser} />
+      <User
+        user={individualUser}
+        sortBy={sortBy}
+        indexOfFirstPost={indexOfFirstPost}
+        indexOfLastPost={indexOfLastPost}
+        searchTerm={searchTerm}
+        setTotalBlogs={setTotalBlogs}
+      />
+      <Pages
+        postsPerPage={postsPerPage}
+        totalPosts={totalBlogs}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   )
 

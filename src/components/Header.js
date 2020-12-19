@@ -38,7 +38,7 @@ const Header = ({ setSearchTerm, setCurrentPage }) => {
       <Navbar collapseOnSelect expand='lg' bg='light'>
         <Navbar.Brand>
           <Link style={padding} to='/'>
-            Hang's Blog App
+            HIFORUM
           </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls='responsive-navbar-nav' />
@@ -78,7 +78,7 @@ const Header = ({ setSearchTerm, setCurrentPage }) => {
     <Navbar collapseOnSelect expand='lg' bg='light'>
       <Navbar.Brand>
         <Link style={padding} to='/'>
-          Hang's Blog App
+          HIFORUM
         </Link>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls='responsive-navbar-nav' />
@@ -86,10 +86,10 @@ const Header = ({ setSearchTerm, setCurrentPage }) => {
       <Navbar.Collapse id='responsive-navbar-nav'>
         <Nav>
           <Nav.Link as={Link} to='/'>
-            Home
+            HOME
           </Nav.Link>
-          <Nav.Link as={Link} to='/users'>
-            Users
+          <Nav.Link as={Link} to={`/users/${user.id}`}>
+            MY POSTS
           </Nav.Link>
         </Nav>
         <Form inline style={{ margin: "0 auto" }}>
