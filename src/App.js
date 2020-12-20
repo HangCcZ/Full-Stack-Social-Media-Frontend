@@ -88,6 +88,7 @@ const App = () => {
         />
         {blogForm()}
       </div>
+
       <BlogList
         sortBy={sortBy}
         indexOfFirstPost={indexOfFirstPost}

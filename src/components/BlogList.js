@@ -9,7 +9,7 @@ dayjs.extend(relativeTime)
 
 const BlogList = ({
   sortBy,
-  searchTerm,
+  searchTerm = "",
   indexOfFirstPost,
   indexOfLastPost,
   setTotalBlogs,

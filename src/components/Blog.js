@@ -1,7 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Comments from "./Comments"
 import { commentBlog } from "../reducers/blogReducer"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import CommentForm from "./CommentForm"
 import { Button, Card, Carousel, Modal, Alert } from "react-bootstrap"
 import { useHistory } from "react-router-dom"
@@ -14,10 +14,16 @@ const Blog = ({ blog, user }) => {
 
   const handleClose = () => setShowModal(false)
   const handleShow = () => setShowModal(true)
+  const login = useSelector((state) => state.user)
 
-  if (!user) {
-    history.push("/")
-  }
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!login) {
+        history.push("/")
+      }
+    }, 1000)
+    return () => clearTimeout(timer)
+  }, [login, history])
 
   if (!blog) {
     return null

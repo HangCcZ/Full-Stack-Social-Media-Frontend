@@ -3,14 +3,12 @@ import { Link } from "react-router-dom"
 import { Table } from "react-bootstrap"
 import dayjs from "dayjs"
 const User = ({ user, indexOfFirstPost, indexOfLastPost, setTotalBlogs }) => {
-  console.log("user from User Component", user)
-
   useEffect(() => {
     setTotalBlogs(user ? user.blogs.length : 0)
   }, [user, setTotalBlogs])
 
   if (!user) {
-    return null
+    return "Loading..."
   }
 
   const renderBlogs = () => {

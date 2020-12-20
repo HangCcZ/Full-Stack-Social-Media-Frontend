@@ -16,7 +16,7 @@ const getAll = async () => {
 // get all blogs corresponding to current user
 const getAllFromUser = async (userId) => {
   const response = await axios.get(`${userUrl}/${userId}`)
-  console.log(response.data.blogs)
+
   return response.data.blogs
 }
 
