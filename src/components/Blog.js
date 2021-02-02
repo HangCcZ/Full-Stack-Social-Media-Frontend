@@ -7,23 +7,23 @@ import { Button, Card, Carousel, Modal, Alert } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { deleteBlog, likeBlog, unlikeBlog } from "../reducers/blogReducer";
-const Blog = ({ blog, user }) => {
+const Blog = ({ blog }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [showModal, setShowModal] = useState(false);
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
-  const login = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (!login) {
+      if (!user) {
         history.push("/");
       }
     }, 1000);
     return () => clearTimeout(timer);
-  }, [login, history]);
+  }, [user, history]);
 
   if (!blog) {
     return null;
@@ -89,11 +89,22 @@ const Blog = ({ blog, user }) => {
     return null;
   };
 
+  const showEdit = () => {
+    if (blog.user.id === user.id) {
+      return (
+        <>
+          <Button variant="info">Edit</Button>{" "}
+        </>
+      );
+    }
+    return null;
+  };
+
   const showLike = () => {
     if (blog.likes.find((like) => like.username === user.username)) {
       return (
         <Button
-          variant="outline-success"
+          variant="secondary"
           onClick={onUnlikeClick}
           className="likeButton"
         >
@@ -102,11 +113,7 @@ const Blog = ({ blog, user }) => {
       );
     } else {
       return (
-        <Button
-          variant="outline-success"
-          onClick={onLikesClick}
-          className="likeButton"
-        >
+        <Button variant="success" onClick={onLikesClick} className="likeButton">
           LIKE
         </Button>
       );

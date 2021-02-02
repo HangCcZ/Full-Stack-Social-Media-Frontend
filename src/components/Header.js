@@ -93,15 +93,17 @@ const Header = ({ setSearchTerm, setCurrentPage }) => {
           </Nav.Link>
         </Nav>
         <Form inline style={{ margin: "0 auto" }}>
-          <FormControl
-            type="text"
-            placeholder="Search"
-            className="mr-sm-2"
-            onChange={(event) => {
-              setSearchTerm(event.target.value);
-              setCurrentPage(1);
-            }}
-          />
+          {location.pathname === "/" ? (
+            <FormControl
+              type="text"
+              placeholder="Search"
+              className="mr-sm-2"
+              onChange={(event) => {
+                setSearchTerm(event.target.value);
+                setCurrentPage(1);
+              }}
+            />
+          ) : null}
         </Form>
         <Nav> {renderLoginMessage()}</Nav>
       </Navbar.Collapse>
