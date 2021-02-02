@@ -1,88 +1,117 @@
-import React, { useState, useEffect } from "react"
-import Comments from "./Comments"
-import { commentBlog } from "../reducers/blogReducer"
-import { useDispatch, useSelector } from "react-redux"
-import CommentForm from "./CommentForm"
-import { Button, Card, Carousel, Modal, Alert } from "react-bootstrap"
-import { useHistory } from "react-router-dom"
-import ReactMarkdown from "react-markdown"
-import { deleteBlog, likeBlog } from "../reducers/blogReducer"
+import React, { useState, useEffect } from "react";
+import Comments from "./Comments";
+import { commentBlog } from "../reducers/blogReducer";
+import { useDispatch, useSelector } from "react-redux";
+import CommentForm from "./CommentForm";
+import { Button, Card, Carousel, Modal, Alert } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
+import { deleteBlog, likeBlog, unlikeBlog } from "../reducers/blogReducer";
 const Blog = ({ blog, user }) => {
-  const dispatch = useDispatch()
-  const history = useHistory()
-  const [showModal, setShowModal] = useState(false)
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const [showModal, setShowModal] = useState(false);
 
-  const handleClose = () => setShowModal(false)
-  const handleShow = () => setShowModal(true)
-  const login = useSelector((state) => state.user)
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
+  const login = useSelector((state) => state.user);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!login) {
-        history.push("/")
+        history.push("/");
       }
-    }, 1000)
-    return () => clearTimeout(timer)
-  }, [login, history])
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [login, history]);
 
   if (!blog) {
-    return null
+    return null;
   }
 
   const onLikesClick = () => {
-    dispatch(likeBlog(blog))
-  }
+    // dispatch(likeBlog(blog));
+    dispatch(likeBlog(blog, user));
+  };
+
+  const onUnlikeClick = () => {
+    dispatch(unlikeBlog(blog, user));
+  };
 
   const removeBlog = () => {
-    dispatch(deleteBlog(blog))
-    history.push("/")
-  }
+    dispatch(deleteBlog(blog));
+    history.push("/");
+  };
 
   const displayModal = () => {
     return (
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title as='h4'>{`Delete`}</Modal.Title>
+          <Modal.Title as="h4">{`Delete`}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          <Alert variant='danger'>
+          <Alert variant="danger">
             Do you want to delete this blog? This process cannot be undone.
           </Alert>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant='secondary' onClick={handleClose}>
+          <Button variant="secondary" onClick={handleClose}>
             No! Take me back!
           </Button>
-          <Button variant='danger' onClick={removeBlog}>
+          <Button variant="danger" onClick={removeBlog}>
             Yes Sir!
           </Button>
         </Modal.Footer>
       </Modal>
-    )
-  }
+    );
+  };
 
   const addComment = (comment) => {
-    dispatch(commentBlog(comment, blog))
-  }
+    dispatch(commentBlog(comment, blog));
+  };
 
   const showRemove = () => {
     if (blog.user.id === user.id) {
       return (
         <>
           <Button
-            variant='danger'
+            variant="danger"
             onClick={handleShow}
-            className='delete-button'
+            className="delete-button"
           >
             DELETE
           </Button>
         </>
-      )
+      );
     }
-    return null
-  }
+    return null;
+  };
+
+  const showLike = () => {
+    if (blog.likes.find((like) => like.username === user.username)) {
+      return (
+        <Button
+          variant="outline-success"
+          onClick={onUnlikeClick}
+          className="likeButton"
+        >
+          UNLIKE
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          variant="outline-success"
+          onClick={onLikesClick}
+          className="likeButton"
+        >
+          LIKE
+        </Button>
+      );
+    }
+  };
 
   const renderCarousel = () => {
     if (blog.images.length !== 0) {
@@ -95,7 +124,7 @@ const Blog = ({ blog, user }) => {
           {blog.images.map((img) => (
             <Carousel.Item key={img.url}>
               <img
-                className='d-block w-100'
+                className="d-block w-100"
                 style={{ maxHeight: "25rem", objectFit: "contain" }}
                 src={img.thumbnail}
                 alt={img.filename}
@@ -103,10 +132,10 @@ const Blog = ({ blog, user }) => {
             </Carousel.Item>
           ))}
         </Carousel>
-      )
+      );
     }
-    return null
-  }
+    return null;
+  };
 
   const blogDetail = () => {
     return (
@@ -119,14 +148,7 @@ const Blog = ({ blog, user }) => {
           <Card.Body>{renderCarousel()}</Card.Body>
           <Card.Body>
             <Card.Text>
-              {blog.likes} likes{" "}
-              <Button
-                variant='outline-success'
-                onClick={onLikesClick}
-                className='likeButton'
-              >
-                LIKE
-              </Button>
+              {blog.likes.length} likes {showLike()}
               {showRemove()}
             </Card.Text>
           </Card.Body>
@@ -141,10 +163,10 @@ const Blog = ({ blog, user }) => {
         </Card>
         {displayModal()}
       </div>
-    )
-  }
+    );
+  };
 
-  return blogDetail()
-}
+  return blogDetail();
+};
 
-export default Blog
+export default Blog;

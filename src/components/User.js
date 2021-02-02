@@ -1,14 +1,14 @@
-import React, { useEffect } from "react"
-import { Link } from "react-router-dom"
-import { Table } from "react-bootstrap"
-import dayjs from "dayjs"
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Table } from "react-bootstrap";
+import dayjs from "dayjs";
 const User = ({ user, indexOfFirstPost, indexOfLastPost, setTotalBlogs }) => {
   useEffect(() => {
-    setTotalBlogs(user ? user.blogs.length : 0)
-  }, [user, setTotalBlogs])
+    setTotalBlogs(user ? user.blogs.length : 0);
+  }, [user, setTotalBlogs]);
 
   if (!user) {
-    return "Loading..."
+    return "Loading...";
   }
 
   const renderBlogs = () => {
@@ -21,13 +21,13 @@ const User = ({ user, indexOfFirstPost, indexOfLastPost, setTotalBlogs }) => {
           </td>
           <td>{` ${dayjs(blog.date).fromNow()}`}</td>
         </tr>
-      ))
-    return blogLists
-  }
+      ));
+    return blogLists;
+  };
 
   return (
     <div>
-      <h2>{`All Blogs By ${user.name}`}</h2>
+      <h2>{`All Blogs By ${user.username}`}</h2>
 
       <Table striped>
         <thead>
@@ -39,7 +39,7 @@ const User = ({ user, indexOfFirstPost, indexOfLastPost, setTotalBlogs }) => {
         <tbody>{renderBlogs()}</tbody>
       </Table>
     </div>
-  )
-}
+  );
+};
 
-export default User
+export default User;
